@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
@@ -7,16 +8,20 @@ public class EnemySpawn : MonoBehaviour
     public GameObject enemyPrefab;
     public float spawnRate = 2f;
     public float spawnRange = 10f;
-    private float timer;
-
+    private float monsterTimer;
+    public TextMeshProUGUI TimerText;                   
+    public float Timer;                                 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= spawnRate)
+        monsterTimer += Time.deltaTime;
+        
+        if (monsterTimer >= spawnRate)
         {
             SpawnEnemy();
-            timer = 0f;
+            monsterTimer = 0f;
         }
+        Timer += Time.deltaTime;
+        TimerText.text = "생존 시간 : " + Timer.ToString("0.00");
     }
 
     void SpawnEnemy()
