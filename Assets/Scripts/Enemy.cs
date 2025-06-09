@@ -39,4 +39,16 @@ public class Enemy : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            Player player = collision.collider.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(1);
+            }
+        }
+        Destroy(gameObject);
+    }
 }

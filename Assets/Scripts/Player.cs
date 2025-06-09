@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public float moveSpeed = 2f;
+    public int maxHealth = 5;
+    private int currentHealth;
+    public TextMeshProUGUI healthText;
     public float score = 0;
     public GameObject projectilePrefab;
     public float fireCooldown = 0.5f;
@@ -19,6 +23,11 @@ public class Player : MonoBehaviour
 
     Vector2 input;
     Vector2 velocity;
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
 
     private void Awake()
     {
@@ -66,11 +75,29 @@ public class Player : MonoBehaviour
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = (mouseWorldPos - transform.position);
-        direction.z = 0f; // Z 제거
+        direction.z = 0f;
         direction.Normalize();
 
         GameObject bullet = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.velocity = direction * 100f; // 총알 속도
+        rb.velocity = direction * 100f;
+    }
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        UpdateUI();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        SceneManager.LoadScene("GameEnd");
+    }
+    void UpdateUI()
+    {
+        healthText.text = "HP: " + currentHealth;
     }
 }
