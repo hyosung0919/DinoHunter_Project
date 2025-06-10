@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        maxHealth = GameDataManager.instance.playerData.maxHealth;
+        moveSpeed = GameDataManager.instance.playerData.moveSpeed;
         currentHealth = maxHealth;
     }
 
