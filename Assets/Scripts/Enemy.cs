@@ -37,6 +37,16 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        if (GameDataManager.Instance != null)
+        {
+            GameDataManager.Instance.data.gold += 10;
+            GameDataManager.Instance.Save();
+
+            // °ñµå UI °»½Å
+            var ui = FindObjectOfType<GoldManager>();
+            if (ui != null) ui.UpdateGoldText();
+        }
+
         Destroy(gameObject);
     }
     void OnCollisionEnter2D(Collision2D collision)

@@ -10,14 +10,12 @@ public class Player : MonoBehaviour
     public int maxHealth = 5;
     private int currentHealth;
     public TextMeshProUGUI healthText;
-    public float score = 0;
     public GameObject projectilePrefab;
     public float fireCooldown = 0.5f;
     private float fireTimer = 0f;
 
     [SerializeField] Sprite spriteLeft;
     [SerializeField] Sprite spriteRight;
-    [SerializeField] TextMeshProUGUI scoretext;
     Rigidbody2D rb;
     SpriteRenderer sR;
 
@@ -26,9 +24,19 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        maxHealth = GameDataManager.instance.playerData.maxHealth;
-        moveSpeed = GameDataManager.instance.playerData.moveSpeed;
+        int upgradeHealth = 0;
+        float upgradeSpeed = 0;
+
+        if (GameDataManager.Instance != null)
+        {
+            upgradeHealth = GameDataManager.Instance.data.extraHealthLevel * 2;
+            upgradeSpeed = GameDataManager.Instance.data.moveSpeedLevel * 0.5f;
+        }
+
+        maxHealth += upgradeHealth;
+        moveSpeed += upgradeSpeed;
         currentHealth = maxHealth;
+        UpdateUI();
     }
 
     private void Awake()
